@@ -8,7 +8,7 @@ This is an example project using Wasp alongside an Expo mobile app. We want to d
 can authenticate with the Wasp backend from a 3rd party client. Also, we would like to use the Wasp server
 API from the Expo app.
 
-## How does auth work?
+## How does the auth work?
 
 The Expo app uses the `expo-auth-session` library to authenticate with the Wasp backend.
 The user is redirected to the Wasp login page, where they can log in or sign up.
