@@ -4,14 +4,71 @@ This is an example project using Wasp alongside an Expo mobile app. We want to d
 can authenticate with the Wasp backend from a 3rd party client. Also, we would like to use the Wasp server
 API from the Expo app.
 
-## Brainstorming
+## How does auth work?
 
-Ways to implement auth with the current Wasp:
+The Expo app uses the `expo-auth-session` library to authenticate with the Wasp backend.
+The user is redirected to the Wasp login page, where they can log in or sign up.
+After the user logs in, they are redirected back to the Expo app with the session ID. The Expo app can use this session ID to authenticate with the Wasp backend.
 
-1. Use internal Wasp's server endpoints directly
-   - store the session ID and put in the header of every request
-2. Use Wasp's custom API endpoints which recreate the signup and login logic
-   - store the session ID and put in the header of every request
-3. Use webviews where users authenticate with Wasp and redirect to the app upon success
-   - the app picks up some sort of one time token and uses it to get the session ID
-   - store the session ID and put in the header of every request
+The main piece of this logic can be found in the `expo-app/hooks/wasp.ts` file and in the `wasp-app/auth` dir.
+
+## Env variables for development
+
+### Wasp app
+
+While developing locally, you might find it useful to set up the following environment variables:
+
+In `wasp-app/.env.server`:
+
+```
+WASP_WEB_CLIENT_URL=http://192.168.0.6.nip.io:3000
+WASP_SERVER_URL=http://192.168.0.6.nip.io:3000
+```
+
+where `192.168.0.6` is your local IP address. You can find it by running `ifconfig` on macOS/Linux or `ipconfig` on Windows to get the local IP.
+
+In `wasp-app/.env.client`:
+
+```
+REACT_APP_API_URL=http://192.168.0.6.nip.io:3001
+```
+
+### Expo app
+
+You MUST set the env vars for the Expo app in `expo-app/.env.local`:
+
+```
+EXPO_PUBLIC_WASP_SERVER_URL=http://192.168.0.6.nip.io:3001
+EXPO_PUBLIC_WASP_CLIENT_URL=http://192.168.0.6.nip.io:3000
+```
+
+## Running the apps
+
+### Expo app
+
+Go into the Expo app folder, install deps and start the app:
+
+```bash
+cd expo-app
+npm install
+# Starts the Expo app in an iOS simulator
+npm run ios
+```
+
+### Wasp app
+
+Go into the Wasp app folder, start the DB:
+
+```bash
+cd wasp-app
+wasp start db
+```
+
+In another terminal, migrate the database schema and start the Wasp app:
+
+```bash
+cd wasp-app
+# Migrate the database schema if you haven't already
+wasp db migrate-dev
+wasp start
+```

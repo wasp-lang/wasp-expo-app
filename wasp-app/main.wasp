@@ -59,9 +59,16 @@ action deleteTasks {
   entities: [Task],
 }
 
+// Custom API endpoints for the Expo app
 api getTasksApi {
   httpRoute: (GET, "/api/tasks"),
   fn: import { getTasks } from "@src/apis",
+  entities: [Task]
+}
+
+api updateTaskAsDoneApi {
+  httpRoute: (POST, "/api/tasks/:taskId/done"),
+  fn: import { updateTaskAsDone } from "@src/apis",
   entities: [Task]
 }
 
