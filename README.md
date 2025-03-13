@@ -1,5 +1,9 @@
 # Wasp Expo
 
+
+https://github.com/user-attachments/assets/de6501fd-7c0a-4d43-8930-15a1fd64c20a
+
+
 This is an example project using Wasp alongside an Expo mobile app. We want to demonstrate that users
 can authenticate with the Wasp backend from a 3rd party client. Also, we would like to use the Wasp server
 API from the Expo app.
